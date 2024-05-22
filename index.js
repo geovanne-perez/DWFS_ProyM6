@@ -3,7 +3,6 @@ const cors = require('cors')
 const swaggerUI = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
 const path = require('path');
-
 const { MongoClient, ObjectId } = require('mongodb'); 
 
 require('dotenv').config()
@@ -31,10 +30,14 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions)
 
 const app = express();
 
+app.get('/',(req,res) => {
+    res.send('Test Express');
+});
+
 app.use(cors());
 app.use(express.json());
 
-//app.use('/api/reservas', require('./routes/reservas.js'))
-app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+app.use('/api/users', require('./routes/users.js'))
+//app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
-app.listen(port, () => {console.log(`Web server iniciado en puerto ${port}`);});
+app.listen(port, () => {console.log(`Web server iniciado en http://localhost:${port}/`);});
