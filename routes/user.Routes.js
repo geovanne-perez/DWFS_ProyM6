@@ -1,28 +1,19 @@
 const express = require('express')
 const router = express.Router()
+// También se puede hacer la importación directa de la siguiente forma:
+// const {Router} = require('express');
+// const router = Router();
 
 const {
-    getUsers,
-    getUserById,
-    addUser,
-    updateUser,
-    delUser
-} = require ('../controllers/usersController');
+    userGet,
+    userGetById,
+    userCreate,
+    userUpdate,
+    userDelete
+} = require ('../controllers/users.Controller');
 
 // Route preceded by /users in index.js
 
-// Sample routes for testing
-/*
-router.get('/', (req,res) => {res.send('Function to get all users');});
-
-router.get('/:id', (req,res) => {res.send('Function to get a single user');});
-
-router.post('/',(req,res) => {res.send('Function to create users');});
-
-router.put('/',(req,res) => {res.send('Function to update users');});
-
-router.delete('/',(req,res) => {res.send('Function to delete users permanently');});
-*/
 
 /**
  * @swagger
@@ -55,8 +46,7 @@ router.delete('/',(req,res) => {res.send('Function to delete users permanently')
  *        enabled: true
  */
 
-//Users Controller functions
-
+//Call Controller functions
 /**
  * @swagger
  * /api/users/:
@@ -77,8 +67,7 @@ router.delete('/',(req,res) => {res.send('Function to delete users permanently')
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/', getUsers);+
-
+router.get('/', userGet);
 /**
  * @swagger
  * /api/users/:id:
@@ -99,7 +88,7 @@ router.get('/', getUsers);+
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/:id', getUserById);
+router.get('/:id', userGetById);
 /**
  * @swagger
  * /api/users/:
@@ -120,7 +109,7 @@ router.get('/:id', getUserById);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.post('/',addUser);
+router.post('/',userCreate);
 /**
  * @swagger
  * /api/users/:
@@ -141,7 +130,7 @@ router.post('/',addUser);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.put('/',updateUser);
+router.put('/',userUpdate);
 /**
  * @swagger
  * /api/users/:
@@ -162,6 +151,6 @@ router.put('/',updateUser);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.delete('/',delUser);
+router.delete('/',userDelete);
 
 module.exports = router;

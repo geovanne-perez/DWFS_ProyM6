@@ -31,13 +31,24 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions)
 const app = express();
 
 app.get('/',(req,res) => {
-    res.send('Test Express');
+    res.send(`Web server iniciado en http://localhost:${port}/`);
 });
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/users', require('./routes/users.js'))
-//app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+// Llamada de Ruta como app.use sencillo
+app.use('/api/users', require('./routes/user.Routes.js'))
+
+// También se puede usar como IIFE
+// IIFE = Immediately Invoked Function Expression
+/*
+const userRoutes =  require('./routes/user.Routes.js')
+(()=>{
+app.use(userRoutes)
+})();
+*/
+// Use Swagger
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
 app.listen(port, () => {console.log(`Web server iniciado en http://localhost:${port}/`);});
