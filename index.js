@@ -40,6 +40,8 @@ app.get('/',(req,res) => {
 });
 
 app.use(cors());
+
+// Declaración para decirle a Express que se utilizará formato JSON en el body de los requests.
 app.use(express.json());
 
 
