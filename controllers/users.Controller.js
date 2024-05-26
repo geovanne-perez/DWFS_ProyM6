@@ -67,27 +67,21 @@ const userCreate = (async (req = request,res = response) => {
 		const {Username,Password,Name,Lastname,Email,Enabled}= req.body;
 		let user = new UserModel({Username,Password,Name,Lastname,Email,Enabled});
 		
-		console.log("Username: ",user.Username);
-		console.log("Password: ",user.Password);
-
+		// Check if Username or Password Empty (400 Conflict)
 		if (Username == null || Password == null) {
-			// Username or Password Empty (400 Conflict)
 			return res.status(400).send({ message: "Se requiere Username y Password" });
 		}
 
 		 // Check if username already exists in the database
 		 const existingUser = await UserModel.findOne({ Username: user.Username});
-
-		 console.log("existingUser: ",existingUser);
 		 if (existingUser) {
 		   // Username conflict (409 Conflict)
 		   return res.status(409).send({ message: "Nombre de usuario ya existe" });
 		 }
+
 		 // Check if Email already exists in the database
 		 const existingEmail = await UserModel.findOne({ Email: user.Email});
-
 		 if (existingEmail) {
-		   // Username conflict (409 Conflict)
 		   return res.status(409).send({ message: "Correo ya registrado" });
 		 }
 		 
@@ -124,10 +118,13 @@ const userUpdate = (async (req = request,res = response) => {
 			
 		 const {Username,Name,Lastname,Email,Enabled}= req.body;
 		 let newUser = new UserModel({Username,Password,Name,Lastname,Email,Enabled});
-		
+
+		// Check if Username Empty (400 Conflict)
+		if (Username == null) {
+			return res.status(400).send({ message: "Se requiere Username y Password" });
+		}
 		 // Check if username exists in the database
 		 var existingUser = await UserModel.findOne({ Username: newUser.username });
-		
 		 
 		// Username exists, proceed with user update
 		 if (existingUser) {
@@ -174,10 +171,66 @@ const userDelete = (async (req = request,res = response) => {
 
 });
 
+const login = (async(req = request,res = response) => {
+	try {
+		const {Username,Password}= req.body;
+		let user = new UserModel({Username,Password});
+
+		// Check if Username or Password Empty (400 Conflict)
+		if (Username == null || Password == null) {
+			return res.status(400).send({ message: "Se requiere Username y Password" });
+		}
+		
+		console.log("User: ",user);
+		// Buscar y recuperar usuario
+		const foundUser = await UserModel.findOne({Username:user.Username});
+		if (!foundUser) {
+			return await res.status(400).
+				json({msg: "The username does not exist"});
+		};
+			// Comparar Passwords
+			const checkPass = await bcryptjs.compare(user.Password,foundUser.Password)
+			
+			// Si el pass incorrecto, retornar error 400 (Not Found)
+			if (!checkPass) {
+				return await res.status(400).
+					json({msg: "The username or password does not correspond"});
+			}
+
+			// Generar WebToken JWT
+			// 1. el 'payload' será un objeto que contendrá el id del usuario
+			const payload = { 
+				id: foundUser.id,
+				username: foundUser.Username,
+				name: foundUser.Name
+			}
+			// 2. firma del jwt
+			jwt.sign(
+				payload, 
+				// usamos la palabra secreta para descifrar la firma electrónica del token
+				process.env.SECRET,
+				{
+					expiresIn: 3600000 // expiración del token
+				}, 
+				(error, token) => {
+					if(error) throw error;
+					//si todo va bien, retorna el token
+					res.json({token})
+			});
+		
+		
+	} catch (error) {
+		console.error("Error en login", error.message);
+		res.status(500).send({ message: "Error interno del servidor" });
+	}
+
+});
+
 module.exports = {
 	userGet,
 	userGetById,
 	userCreate,
 	userUpdate,
-	userDelete
+	userDelete,
+	login
 };

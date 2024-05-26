@@ -9,7 +9,8 @@ const {
     userGetById,
     userCreate,
     userUpdate,
-    userDelete
+    userDelete,
+    login
 } = require ('../controllers/users.Controller');
 
 // Route preceded by /users in index.js
@@ -152,5 +153,27 @@ router.put('/',userUpdate);
  *               $ref: '#/components/schemas/User'
  */
 router.delete('/',userDelete);
+
+/**
+ * @swagger
+ * /api/users/:
+ *   put:
+ *     summary: Inicio de Sesión
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Inicio de Sesión con un usuario y contraseña
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ */
+router.post('/login',login);
 
 module.exports = router;
