@@ -1,8 +1,6 @@
 const express = require('express')
 const router = express.Router()
-// También se puede hacer la importación directa de la siguiente forma:
-// const {Router} = require('express');
-// const router = Router();
+const authMidd = require('../middleware/authorization')
 
 const {
     userGet,
@@ -12,9 +10,6 @@ const {
     userDelete,
     login
 } = require ('../controllers/users.Controller');
-
-// Route preceded by /users in index.js
-
 
 /**
  * @swagger
@@ -68,7 +63,7 @@ const {
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/', userGet);
+router.get('/',authMidd, userGet);
 /**
  * @swagger
  * /api/users/:id:
@@ -89,7 +84,7 @@ router.get('/', userGet);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/:id', userGetById);
+router.get('/:id',authMidd, userGetById);
 /**
  * @swagger
  * /api/users/:
@@ -110,7 +105,7 @@ router.get('/:id', userGetById);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.post('/',userCreate);
+router.post('/',authMidd,userCreate);
 /**
  * @swagger
  * /api/users/:
@@ -131,7 +126,7 @@ router.post('/',userCreate);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.put('/',userUpdate);
+router.put('/',authMidd,userUpdate);
 /**
  * @swagger
  * /api/users/:
@@ -152,8 +147,7 @@ router.put('/',userUpdate);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.delete('/',userDelete);
-
+router.delete('/',authMidd,userDelete);
 /**
  * @swagger
  * /api/users/:
