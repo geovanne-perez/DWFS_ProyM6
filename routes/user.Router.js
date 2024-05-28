@@ -139,7 +139,7 @@ router.put('/',authMidd,userUpdate);
 *     security:
 *       - Authorization: []
  *     requestBody:
- *       required: false
+ *       required: true
  *       content:
  *         application/json:
  *           schema:
@@ -155,8 +155,8 @@ router.put('/',authMidd,userUpdate);
 router.delete('/',authMidd,userDelete);
 /**
  * @swagger
- * /api/users/:
- *   put:
+ * /api/users/login:
+ *  put:
  *     summary: Inicio de Sesión
  *     tags: [Users]
  *     requestBody:

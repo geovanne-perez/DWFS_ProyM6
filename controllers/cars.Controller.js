@@ -1,10 +1,10 @@
 const {response,request} = require('express');
-const usedCarModel = require('../models/usedCar.Model');
+const carModel = require('../models/car.Model');
 
 // Función para obtener todos los autos usados en catálogo
-const usedCarsGet = (async (req = request,res = response) => {
+const carsGet = (async (req = request,res = response) => {
 	try {
-		const cars = await usedCarModel.find();
+		const cars = await carModel.find();
 		res.status(200).json({
 		message:"Datos cargados correctamente",
 		data: cars
@@ -16,7 +16,7 @@ const usedCarsGet = (async (req = request,res = response) => {
 });
 
 // Función para obtener un sólo auto de catálogo
-const usedCarsGetById = (async (req=request,res=response) => {
+const carsGetbyID = (async (req=request,res=response) => {
 	try {
 		const {id} = req.query;
 		if (id == null || id == "") {
@@ -25,7 +25,7 @@ const usedCarsGetById = (async (req=request,res=response) => {
 			});
 		};
 		
-		const cars = await usedCarModel.findById(id);
+		const cars = await carModel.findById(id);
 		if (cars != null) {
 			res.status(200).json({
 				message:`Auto con ID: ${id} encontrado.`,
@@ -46,7 +46,7 @@ const usedCarsGetById = (async (req=request,res=response) => {
 });
 
 // Función para crear un nuevo auto en catálogo
-const usedCarsInsert = (async (req= request,res=response) =>{
+const carsCreate = (async (req= request,res=response) =>{
 	try {		
 		const {marca,modelo,año,kilometraje,precio,color,descripción,img,status} = req.body;
 		
@@ -74,7 +74,7 @@ const usedCarsInsert = (async (req= request,res=response) =>{
 		};
 
 		// Crear auto		
-		let car = new usedCarModel(marca,modelo,año,kilometraje,precio,color,descripción,img,status);
+		let car = new carModel(marca,modelo,año,kilometraje,precio,color,descripción,img,status);
 		const insertedCar = await car.save();
 
 		res.status(200).json({
@@ -89,7 +89,7 @@ const usedCarsInsert = (async (req= request,res=response) =>{
 	}
 });
 
-const usedCarsUpdate = (async (req=request, res=response) => {
+const carsUpdate = (async (req=request, res=response) => {
 	try {
 		const {id} = req.query;
 		const {marca,modelo,año,kilometraje,precio,color,descripción,img,status} = req.body;
@@ -122,7 +122,7 @@ const usedCarsUpdate = (async (req=request, res=response) => {
 		};
 
 		// Encontrar auto existente
-		 const auto = await usedCarModel.findById(id);
+		 const auto = await carModel.findById(id);
 		 
 		// Enviar mensaje si el ID no se encontró
 		if (auto == null) {
@@ -141,7 +141,7 @@ const usedCarsUpdate = (async (req=request, res=response) => {
 		auto.img = img != null ? img:auto.img;
 		auto.status = status != null ? status:auto.status;	
 		
-		const updatedAuto = await usedCarModel.findByIdAndUpdate(id,auto,{new:true});
+		const updatedAuto = await carModel.findByIdAndUpdate(id,auto,{new:true});
 		
 		res.status(200).json({
 			message:"Actualización de auto completada correctamente",
@@ -154,7 +154,7 @@ const usedCarsUpdate = (async (req=request, res=response) => {
 	}
 });
 
-const usedCarsDelete = (async (req=request, res=response) => {
+const carsDelete = (async (req=request, res=response) => {
 	try {
 		const {id} = req.query;
 
@@ -165,7 +165,7 @@ const usedCarsDelete = (async (req=request, res=response) => {
 		};
 
 		// Encontrar auto existente
-		 const auto = await usedCarModel.findById(id);
+		 const auto = await carModel.findById(id);
 		 
 		// Enviar mensaje si el ID no se encontró
 		if (auto == null) {
@@ -173,7 +173,7 @@ const usedCarsDelete = (async (req=request, res=response) => {
 			return res.status(409).send({ message: `Vehículo con ID ${id} no encontrado` });
 		}
 		
-		const deletedAuto = await usedCarModel.findByIdAndDelete(id,null,{new:true});
+		const deletedAuto = await carModel.findByIdAndDelete(id,null,{new:true});
 		
 		res.status(200).json({
 			message:"Eliminación de auto completada correctamente",
@@ -188,9 +188,9 @@ const usedCarsDelete = (async (req=request, res=response) => {
 
 
 module.exports = {
-	usedCarsGet,
-	usedCarsGetById,
-	usedCarsInsert,
-	usedCarsUpdate,
-	usedCarsDelete
+	carsGet: carsGet,
+	carsGetbyID,
+	carsCreate,
+	carsUpdate,
+	carsDelete
 }

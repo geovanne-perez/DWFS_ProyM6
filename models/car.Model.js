@@ -42,6 +42,6 @@ const userSchema = Schema({
     }
 }, {versionKey:false});
 
-const usedCar = model("usedCars", userSchema);
+const carModel = model("cars", userSchema);
 
-module.exports = usedCar;
+module.exports = carModel;

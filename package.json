@@ -30,6 +30,7 @@
     "prompt-sync": "^4.2.0",
     "prompt-sync-history": "^1.0.1",
     "readline-sync": "^1.4.10",
+    "swagger": "^0.7.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   }

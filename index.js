@@ -41,7 +41,7 @@ const swaggerOptions = {
     },
     apis: [`${path.join(__dirname, './routes/*.js')}`],
 }
-const swaggerDocs = swaggerJsDoc(swaggerOptions)
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 const app = express();
 
@@ -61,12 +61,14 @@ app.use(express.json());
 // También se puede usar como IIFE
     // IIFE = Immediately Invoked Function Expression
 
-const userRoutes =  require('./routes/user.Routes');
+const userRouter = require('./routes/user.Router.js');
+const carsRouter = require('./routes/cars.Router.js');
 const {dbConnection} = require('./database/config.js');
 
 (async ()=> {
     await dbConnection();
-    app.use('/api/users',userRoutes)
+    app.use('/api/users',userRouter);
+    app.use('/api/cars',carsRouter);
 })();
 
 // Use Swagger
