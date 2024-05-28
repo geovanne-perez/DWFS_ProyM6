@@ -1,4 +1,3 @@
-//const database = dbClient.db('DWFS_P6');
 const {response,request} = require('express');
 const UserModel = require('../models/user.Model');
 const bcryptjs = require('bcryptjs');
@@ -84,6 +83,7 @@ const userCreate = (async (req = request,res = response) => {
 		const hashedPassword = await bcryptjs.hash(user.Password,salt);
 		user.Password = hashedPassword;
 		const createdUser = await user.save();
+		
 		res.status(200).json({
 			message:"Usuario creado correctamente",
 			data: createdUser
@@ -151,10 +151,10 @@ const userDelete = (async (req = request,res = response) => {
 			});
 		}
 		else{
-		const updatedUser = await UserModel.findByIdAndDelete(id,null,{new:true});
+		const deletedUser = await UserModel.findByIdAndDelete(id,null,{new:true});
 		res.status(200).json({
 			message:"Usuario eliminado correctamente",
-			data: updatedUser
+			data: deletedUser
 		});
 		}
 	} catch (error) {

@@ -22,6 +22,16 @@ const swaggerOptions = {
         info: {
             title: 'Node API for Project Management using Mongo',
             version: '1.0.0',
+        },        
+    components: {
+            securitySchemes: {
+                Authorization: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                    value: "Bearer <JWT token here>"
+                }
+            }
         },
         servers: [
             {
@@ -35,10 +45,10 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions)
 
 const app = express();
 
-app.get('/',(req,res) => {
+/*app.get('/',(req,res) => {
     res.send(`Web server iniciado en http://localhost:${port}/`);
 });
-
+*/
 app.use(cors());
 
 // Declaración para decirle a Express que se utilizará formato JSON en el body de los requests.
@@ -60,6 +70,6 @@ const {dbConnection} = require('./database/config.js');
 })();
 
 // Use Swagger
-//app.use('/api/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
 
 app.listen(port, () => {console.log(`Web server iniciado en http://localhost:${port}/`);});

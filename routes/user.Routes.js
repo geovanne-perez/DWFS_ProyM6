@@ -49,6 +49,8 @@ const {
  *   get:
  *     summary: Obtener todos los usuarios
  *     tags: [Users]
+*     security:
+*       - Authorization: []
  *     requestBody:
  *       required: false
  *       content:
@@ -64,18 +66,15 @@ const {
  *               $ref: '#/components/schemas/User'
  */
 router.get('/',authMidd, userGet);
+
 /**
  * @swagger
  * /api/users/:id:
  *   get:
  *     summary: Obtener un solo usuario
  *     tags: [Users]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
+*     security:
+*       - Authorization: []
  *     responses:
  *       200:
  *         description: Usuario recuperado
@@ -91,6 +90,8 @@ router.get('/:id',authMidd, userGetById);
  *   post:
  *     summary: Crear un nuevo usuario
  *     tags: [Users]
+*     security:
+*       - Authorization: []
  *     requestBody:
  *       required: true
  *       content:
@@ -112,6 +113,8 @@ router.post('/',authMidd,userCreate);
  *   put:
  *     summary: Actualizar un usuario existente
  *     tags: [Users]
+*     security:
+*       - Authorization: []
  *     requestBody:
  *       required: true
  *       content:
@@ -133,8 +136,10 @@ router.put('/',authMidd,userUpdate);
  *   delete:
  *     summary: Eliminar un usuario existente
  *     tags: [Users]
+*     security:
+*       - Authorization: []
  *     requestBody:
- *       required: true
+ *       required: false
  *       content:
  *         application/json:
  *           schema:
