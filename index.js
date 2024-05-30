@@ -63,6 +63,7 @@ app.use(express.json());
 
 const userRouter = require('./routes/user.Router.js');
 const carsRouter = require('./routes/cars.Router.js');
+const shoppingCartsRouter = require('./routes/shoppingCarts.Router.js');
 const {dbConnection} = require('./database/config.js');
 
 
@@ -70,6 +71,7 @@ const {dbConnection} = require('./database/config.js');
     await dbConnection();
     app.use('/api',userRouter);
     app.use('/api/cars',carsRouter);
+    app.use('/api/cart',shoppingCartsRouter);
 })();
 
 // Use Swagger
