@@ -32,9 +32,6 @@ const {
  *          type: string
  *        descripción:
  *          type: string
- *        img:
- *          type: string
- *          format: binary
  *        status:
  *          type: number
  *      example:
@@ -45,8 +42,7 @@ const {
  *        precio: 250000
  *        color: Negro
  *        descripción: VW Golf negro 2020 como nuevo
- *        img: [imagenes]
- *        status: 1   // En venta
+ *        status: 1
  */
 
 /**
@@ -71,7 +67,7 @@ const {
 router.get('/',authMidd,carsGet);
 /**
  * @swagger
- * /api/cars/:id:
+ * /api/cars/id:
  *  get:
  *     summary: Obtener un auto por ID
  *     tags: [cars]
@@ -97,7 +93,7 @@ router.get('/',authMidd,carsGet);
  *         description: Error interno de servidor
  *       
  */
-router.get('/:id',authMidd,carsGetbyID);
+router.get('/id',authMidd,carsGetbyID);
 
 
 /**

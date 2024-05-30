@@ -174,7 +174,6 @@ const login = (async(req = request,res = response) => {
 			return res.status(400).send({ message: "Se requiere Username y Password" });
 		}
 		
-		console.log("User: ",user);
 		// Buscar y recuperar usuario
 		const foundUser = await UserModel.findOne({Username:user.Username});
 		if (!foundUser) {
@@ -208,7 +207,13 @@ const login = (async(req = request,res = response) => {
 				(error, token) => {
 					if(error) throw error;
 					//si todo va bien, retorna el token
-					res.json({token})
+
+					let session = ({username:Username, token: token})
+					res.status(200).json({
+						message:"Login exitoso",
+						session: session
+					});
+					
 			});
 		
 		

@@ -12,7 +12,6 @@ const { MongoClient, ObjectId } = require('mongodb');
 
 // Obtener Puerto desde environment
 const port = process.env.PORT 
-console.log(process.env)
 
 const serverUrl = process.env.SERVER_URL || `http://localhost:${port}`
 
@@ -23,7 +22,7 @@ const swaggerOptions = {
             title: 'Node API for Project Management using Mongo',
             version: '1.0.0',
         },        
-    components: {
+        components: {
             securitySchemes: {
                 Authorization: {
                     type: "http",
@@ -37,7 +36,7 @@ const swaggerOptions = {
             {
                 url: serverUrl,
             },
-        ],
+        ]
     },
     apis: [`${path.join(__dirname, './routes/*.js')}`],
 }
@@ -50,6 +49,7 @@ const app = express();
 });
 */
 app.use(cors());
+
 
 // Declaración para decirle a Express que se utilizará formato JSON en el body de los requests.
 app.use(express.json());
@@ -65,13 +65,17 @@ const userRouter = require('./routes/user.Router.js');
 const carsRouter = require('./routes/cars.Router.js');
 const {dbConnection} = require('./database/config.js');
 
+
 (async ()=> {
     await dbConnection();
-    app.use('/api/users',userRouter);
+    app.use('/api',userRouter);
     app.use('/api/cars',carsRouter);
 })();
 
 // Use Swagger
-app.use('/', swaggerUI.serve, swaggerUI.setup(swaggerDocs))
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
-app.listen(port, () => {console.log(`Web server iniciado en http://localhost:${port}/`);});
+app.listen(port, () => {
+    console.log(`Web server iniciado en http://localhost:${port}/`);
+    console.log(`Swagger ubicado en http://localhost:${port}/api-docs`);
+});

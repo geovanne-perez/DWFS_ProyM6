@@ -30,9 +30,6 @@ const userSchema = Schema({
     descripción: {
         type: String
     },
-    img: {
-        type: [String]
-    },
     // Status = 1: En Venta, 2: Apartado, 3: Vendido
     status:{
         type: Number, 
@@ -42,6 +39,6 @@ const userSchema = Schema({
     }
 }, {versionKey:false});
 
-const carModel = model("cars", userSchema);
+const Car = model("Car", userSchema);
 
-module.exports = carModel;
+module.exports = Car;

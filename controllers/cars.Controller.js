@@ -1,10 +1,10 @@
 const {response,request} = require('express');
-const carModel = require('../models/car.Model');
+const CarModel = require('../models/car.Model');
 
 // Función para obtener todos los autos usados en catálogo
 const carsGet = (async (req = request,res = response) => {
 	try {
-		const cars = await carModel.find();
+		const cars = await CarModel.find();
 		res.status(200).json({
 		message:"Datos cargados correctamente",
 		data: cars
@@ -25,9 +25,9 @@ const carsGetbyID = (async (req=request,res=response) => {
 			});
 		};
 		
-		const cars = await carModel.findById(id);
+		const cars = await CarModel.findById(id);
 		if (cars != null) {
-			res.status(200).json({
+				res.status(200).json({
 				message:`Auto con ID: ${id} encontrado.`,
 				data: cars
 			});
@@ -74,7 +74,7 @@ const carsCreate = (async (req= request,res=response) =>{
 		};
 
 		// Crear auto		
-		let car = new carModel(marca,modelo,año,kilometraje,precio,color,descripción,img,status);
+		let car = new CarModel({marca,modelo,año,kilometraje,precio,color,descripción,img,status});
 		const insertedCar = await car.save();
 
 		res.status(200).json({
@@ -100,29 +100,9 @@ const carsUpdate = (async (req=request, res=response) => {
 		if (id == null || id == "") {
 			res.status(400).json({ message:`ID de auto requerido` });
 		};
-		// Checar si marca es Null (Error 400)
-		if (marca == null || marca == "") {
-			return res.status(409).send({ message: "Se requiere introducir la marca" });
-		};
-		// Checar si el modelo es Null (Error 400)
-		if (modelo == null || modelo == "") {
-			return res.status(400).send({ message: "Se requiere introducir el modelo" });
-		};
-		// Checar si el año es Null (Error 400)
-		if (año == null || año == 0) {
-			return res.status(400).send({ message: "Se requiere introducir el año" });
-		};
-		// Checar si el kilometraje es Null (Error 400)
-		if (kilometraje == null || kilometraje == 0) {
-			return res.status(400).send({ message: "Se requiere introducir el kilometraje" });
-		};
-		// Checar si el precio es Null (Error 400)
-		if (precio == null || precio == 0) {
-			return res.status(400).send({ message: "Se requiere introducir el precio" });
-		};
 
 		// Encontrar auto existente
-		 const auto = await carModel.findById(id);
+		 const auto = await CarModel.findById(id);
 		 
 		// Enviar mensaje si el ID no se encontró
 		if (auto == null) {
@@ -141,7 +121,7 @@ const carsUpdate = (async (req=request, res=response) => {
 		auto.img = img != null ? img:auto.img;
 		auto.status = status != null ? status:auto.status;	
 		
-		const updatedAuto = await carModel.findByIdAndUpdate(id,auto,{new:true});
+		const updatedAuto = await CarModel.findByIdAndUpdate(id,auto,{new:true});
 		
 		res.status(200).json({
 			message:"Actualización de auto completada correctamente",
@@ -165,7 +145,7 @@ const carsDelete = (async (req=request, res=response) => {
 		};
 
 		// Encontrar auto existente
-		 const auto = await carModel.findById(id);
+		 const auto = await CarModel.findById(id);
 		 
 		// Enviar mensaje si el ID no se encontró
 		if (auto == null) {
@@ -173,7 +153,7 @@ const carsDelete = (async (req=request, res=response) => {
 			return res.status(409).send({ message: `Vehículo con ID ${id} no encontrado` });
 		}
 		
-		const deletedAuto = await carModel.findByIdAndDelete(id,null,{new:true});
+		const deletedAuto = await CarModel.findByIdAndDelete(id,null,{new:true});
 		
 		res.status(200).json({
 			message:"Eliminación de auto completada correctamente",

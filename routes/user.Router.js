@@ -18,7 +18,7 @@ const {
  *    User:
  *      type: object
  *      properties:
- *        user:
+ *        Username:
  *          type: string
  *        password:
  *          type: string
@@ -33,13 +33,30 @@ const {
  *        enabled:
  *          type: boolean
  *      example:
- *        user: Username1
+ *        Username: Username1
  *        password: "password123"
  *        name: "Mike"
  *        lastname: "Nieva"
  *        email: "mike@email.com"
  *        controlNo: 12345
  *        enabled: true
+ *    login:
+ *      type: object
+ *      properties:
+ *        Username:
+ *          type: string
+ *        password:
+ *          type: string
+ *      example:
+ *        Username: Username1
+ *        Password: "password123"
+ *    session:
+ *      type: object
+ *      properties:
+ *        token:
+ *          type: string
+ *      example:
+ *        token: #####
  */
 
 //Call Controller functions
@@ -51,12 +68,6 @@ const {
  *     tags: [Users]
 *     security:
 *       - Authorization: []
- *     requestBody:
- *       required: false
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
  *     responses:
  *       200:
  *         description: Usuarios recuperados
@@ -65,7 +76,7 @@ const {
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/',authMidd, userGet);
+router.get('/users/',authMidd, userGet);
 
 /**
  * @swagger
@@ -83,7 +94,7 @@ router.get('/',authMidd, userGet);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.get('/:id',authMidd, userGetById);
+router.get('/users/:id',authMidd, userGetById);
 /**
  * @swagger
  * /api/users/:
@@ -106,7 +117,7 @@ router.get('/:id',authMidd, userGetById);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.post('/',authMidd,userCreate);
+router.post('/users/',authMidd,userCreate);
 /**
  * @swagger
  * /api/users/:
@@ -129,7 +140,7 @@ router.post('/',authMidd,userCreate);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.put('/',authMidd,userUpdate);
+router.put('/users/',authMidd,userUpdate);
 /**
  * @swagger
  * /api/users/:
@@ -152,11 +163,11 @@ router.put('/',authMidd,userUpdate);
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-router.delete('/',authMidd,userDelete);
+router.delete('/users/',authMidd,userDelete);
 /**
  * @swagger
- * /api/users/login:
- *  put:
+ * /api/login:
+ *  post:
  *     summary: Inicio de Sesión
  *     tags: [Users]
  *     requestBody:
@@ -164,14 +175,14 @@ router.delete('/',authMidd,userDelete);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/login'
  *     responses:
  *       200:
- *         description: Inicio de Sesión con un usuario y contraseña
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/User'
+ *         description: Inicio de Sesión exitoso
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/session'
  */
 router.post('/login',login);
 
