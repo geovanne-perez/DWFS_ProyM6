@@ -6,7 +6,7 @@ try {
     console.log("Conexión a base de datos realizada con éxito");
 } catch (error) {
     console.log(error);
-    throw new error("Error abriendo conexión con MongoDB")
+    throw new Error("Error abriendo conexión con MongoDB")
 }
 }
 
