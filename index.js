@@ -61,6 +61,7 @@ app.use(express.json());
 // También se puede usar como IIFE
     // IIFE = Immediately Invoked Function Expression
 
+const ConnTest = require('./routes/global.Router.js');
 const userRouter = require('./routes/user.Router.js');
 const carsRouter = require('./routes/cars.Router.js');
 const shoppingCartsRouter = require('./routes/shoppingCarts.Router.js');
@@ -69,6 +70,7 @@ const {dbConnection} = require('./database/config.js');
 
 (async ()=> {
     await dbConnection();
+    app.use('/api/test',ConnTest);
     app.use('/api',userRouter);
     app.use('/api/cars',carsRouter);
     app.use('/api/cart',shoppingCartsRouter);

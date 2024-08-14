@@ -3,7 +3,6 @@ const UserModel = require('../models/user.Model');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// Sample routes for testing
 // Se coloca el req = request para que el compilador identifique el tipo de dato, y se visualice el autocompletado
 const userGet = (async (req = request,res = response) => {
 	try {
@@ -11,8 +10,7 @@ const userGet = (async (req = request,res = response) => {
 		res.status(200).json({
 		message:"Datos cargados correctamente",
 		data: users
-		});
-		
+		});		
 	} catch (error) {		
 		console.error("Error interno obteniendo usuarios", error.message);
 		res.status(500).send({ message: "Error interno del servidor" });		
